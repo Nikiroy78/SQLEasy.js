@@ -12,14 +12,14 @@ git clone https://github.com/Nikiroy78/SQLEasy.js.git
 ```
 import database object in your project
 ``` javascript
-const SQLEasy = require('SQLEasy');
+const SQLEasy = require('SQLEasy.js');
 var database = SQLEasy.database('/path/to/database.db');
 ```
 This object have 4 methods: add, remove, set, get
 ### get
 This method getting date from included database
 ```javascript
-const sqlite = require('SQLEasy');
+const sqlite = require('SQLEasy.js');
 var database =  sqlite.database('/path/to/database.db');
 
 console.log(database.get('table'));
@@ -31,7 +31,7 @@ output...
 
 You can apply condition's settings from filt your data...
 ```javascript
-const sqlite = require('SQLEasy');
+const sqlite = require('SQLEasy.js');
 var database =  sqlite.database('/path/to/database.db');
 
 console.log(database.get('table', [{'ID': 0}, {'content': 'etc.'}]));
@@ -46,7 +46,7 @@ SELECT * FROM table WHERE (ID=0) OR (content='etc.')
 ```
 And you edit uploaded columns
 ```javascript
-const sqlite = require('SQLEasy');
+const sqlite = require('SQLEasy.js');
 var database =  sqlite.database('/path/to/database.db');
 
 console.log(database.get('table', [{'ID': 0}, {'content': 'etc.'}], 'content'));
@@ -66,7 +66,7 @@ INSERT
 ```
 Using add method in your code (from your simply, we used old date from last database).
 ```javascript
-const sqlite = require('SQLEasy');
+const sqlite = require('SQLEasy.js');
 var database =  sqlite.database('/path/to/database.db');
 
 database.add('table', {'ID': 4, 'content': 'test example, from fucking tests :)'})
@@ -75,4 +75,30 @@ console.log(database.get('table'));
 output...
 ```javascript
 [{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'etc.'}, {'ID': 4, 'content': 'test example, from fucking tests :)'}]
+```
+### remove
+Using remove method in your code (from your simply, we used old date from last database).
+```javascript
+const sqlite = require('SQLEasy.js');
+var database =  sqlite.database('/path/to/database.db');
+
+database.remove('table', {'ID': 4});
+console.log(database.get('table'));
+```
+output...
+```javascript
+[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'etc.'}]
+```
+### set
+Using set method in your code (from your simply, we used old date from last database).
+```javascript
+const sqlite = require('SQLEasy.js');
+var database =  sqlite.database('/path/to/database.db');
+
+database.set('table', {'ID': 3}, {'content': 'edited'});  // First param - index key, found param - edit content...
+console.log(database.get('table'));
+```
+output...
+```javascript
+[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'edited'}]
 ```
