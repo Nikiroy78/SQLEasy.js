@@ -69,7 +69,7 @@ Using add method in your code (from your simply, we used old date from last data
 const sqlite = require('SQLEasy.js');
 var database =  sqlite.database('/path/to/database.db');
 
-database.add('table', {'ID': 4, 'content': 'test example, from fucking tests :)'})
+database.add('table', [{'ID': 4, 'content': 'test example, from fucking tests :)'}])
 console.log(database.get('table'));
 ```
 output...
