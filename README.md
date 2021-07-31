@@ -102,3 +102,17 @@ output...
 ```javascript
 [{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'edited'}]
 ```
+### execute
+This is important method from execute your SQL script in your code.
+Using method **execute** in test code (from your simply, we used old date from last database).
+```javascript
+const sqlite = require('SQLEasy.js');
+var database = sqlite.database('/path/to/database');
+
+var data = database.execute('SELECT * FROM table');
+console.log(data);
+```
+output...
+```javascript
+[objecObject]
+```
