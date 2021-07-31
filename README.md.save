@@ -112,7 +112,7 @@ var database = sqlite.database('/path/to/database');
 var data = database.execute('SELECT * FROM table');
 console.log(data);
 ```
-output...
+output.log
 ```javascript
-[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'etc.'}]
+git clone https://github.com/Nikiroy78/SQLEasy.js.git
 ```
