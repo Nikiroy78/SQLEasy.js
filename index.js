@@ -33,7 +33,7 @@ class database {
 		this.get = this.getTable;
 		this.select = this.get;
 		this.set = this.setItem;
-		this.add = this.insert;
+		this.insert = this.add;
 		this.update = this.set;
 		this.remove = this.del;
 		this.pop = this.del;
