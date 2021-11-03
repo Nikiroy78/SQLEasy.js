@@ -13,7 +13,7 @@ git clone https://github.com/Nikiroy78/SQLEasy.js.git
 import database object in your project
 ``` javascript
 const SQLEasy = require('SQLEasy.js');
-var database = SQLEasy.database('/path/to/database.db');
+var database = new SQLEasy.database('/path/to/database.db');
 ```
 This object have 4 methods: add, remove, set, get
 ### get
