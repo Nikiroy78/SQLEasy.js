@@ -16,6 +16,7 @@ const SQLEasy = require('SQLEasy.js');
 var database = new SQLEasy.database('/path/to/database.db');
 ```
 This object have 4 methods: add, remove, set, get
+## Methods of SQLEasy object
 ### get
 This method getting date from included database
 ```javascript
