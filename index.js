@@ -128,18 +128,20 @@ class database {
 		let value_array = new Array();
 		
 		for(let key in index){
-			// equal_index = `${key} = ${this.ToString(index[key])}`;
-			equal_index = `${key} = ?`;
-			value_array.push(index[key]);
+			equal_index = `${key} = ${this.ToString(index[key])}`;
+			// equal_index = `${key} = ?`;
 			break;
 		}
 		for(let key in values){
-			equal_values = `${key} = ${this.ToString(values[key])}`;
+			// equal_values = `${key} = ${this.ToString(values[key])}`;
+			equal_values = `${key} = ?`;
+			value_array.push(values[key]);
 			break;
 		}
 		let SQLRequest = `UPDATE ${table} SET ${equal_values} WHERE ${equal_index}`;
 		try {
-			this.db.prepare(SQLRequest).get(value_array).run();
+			// this.db.prepare(SQLRequest).get(value_array).run();
+			this.db.prepare(SQLRequest).run(value_array);
 		} catch(err) {
 			throw new Error(`SQLEasy error: ${err.message}`);
 		}
