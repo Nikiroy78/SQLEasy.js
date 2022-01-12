@@ -125,8 +125,12 @@ class database {
 		this.getBase(table);
 		let equal_index = '';
 		let equal_values = '';
+		let value_array = new Array();
+		
 		for(let key in index){
-			equal_index = `${key} = ${this.ToString(index[key])}`;
+			// equal_index = `${key} = ${this.ToString(index[key])}`;
+			equal_index = `${key} = ?`;
+			value_array.push(index[key]);
 			break;
 		}
 		for(let key in values){
@@ -135,7 +139,7 @@ class database {
 		}
 		let SQLRequest = `UPDATE ${table} SET ${equal_values} WHERE ${equal_index}`;
 		try {
-			this.db.prepare(SQLRequest).run();
+			this.db.prepare(SQLRequest).get(value_array).run();
 		} catch(err) {
 			throw new Error(`SQLEasy error: ${err.message}`);
 		}
