@@ -21,7 +21,7 @@ This object have 4 methods: add, remove, set, get
 This method getting date from included database
 ```javascript
 const sqlite = require('SQLEasy.js');
-var database =  sqlite.database('/path/to/database.db');
+var database = sqlite.database('/path/to/database.db');
 
 console.log(database.get('table'));
 ```
@@ -33,7 +33,7 @@ output...
 You can apply condition's settings from filt your data...
 ```javascript
 const sqlite = require('SQLEasy.js');
-var database =  sqlite.database('/path/to/database.db');
+var database = sqlite.database('/path/to/database.db');
 
 console.log(database.get('table', [{'ID': 0}, {'content': 'etc.'}]));
 ```
@@ -48,7 +48,7 @@ SELECT * FROM table WHERE (ID=0) OR (content='etc.')
 And you edit uploaded columns
 ```javascript
 const sqlite = require('SQLEasy.js');
-var database =  sqlite.database('/path/to/database.db');
+var database = sqlite.database('/path/to/database.db');
 
 console.log(database.get('table', [{'ID': 0}, {'content': 'etc.'}], 'content'));
 ```
@@ -68,7 +68,7 @@ INSERT
 Using add method in your code (from your simply, we used old date from last database).
 ```javascript
 const sqlite = require('SQLEasy.js');
-var database =  sqlite.database('/path/to/database.db');
+var database = sqlite.database('/path/to/database.db');
 
 database.add('table', [{'ID': 4, 'content': 'test example, from fucking tests :)'}])
 console.log(database.get('table'));
@@ -81,7 +81,7 @@ output...
 Using remove method in your code (from your simply, we used old date from last database).
 ```javascript
 const sqlite = require('SQLEasy.js');
-var database =  sqlite.database('/path/to/database.db');
+var database = sqlite.database('/path/to/database.db');
 
 database.remove('table', {'ID': 4});
 console.log(database.get('table'));
@@ -94,7 +94,7 @@ output...
 Using set method in your code (from your simply, we used old date from last database).
 ```javascript
 const sqlite = require('SQLEasy.js');
-var database =  sqlite.database('/path/to/database.db');
+var database = sqlite.database('/path/to/database.db');
 
 database.set('table', {'ID': 3}, {'content': 'edited'});  // First param - index key, found param - edit content...
 console.log(database.get('table'));
