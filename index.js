@@ -87,13 +87,16 @@ class database {
 	add(table, addvArray, ignore=false){
 		this.getBase(table);
 		let SQLRequest = new Array();
+		let setting_values = new Array();
 		for(let i = 0; i < addvArray.length; i++) {
 			let addObject = addvArray[i];
 			let keys = new Array();
 			let values = new Array();
+			setting_values = new Array();
 			for(let key in addObject){
 				keys.push(key);
-				values.push(this.ToString(addObject[key]));
+				setting_values.push(addObject[key]);
+				values.push('?');
 			}
 			let op = 'INSERT';
 			if(ignore) op = 'INSERT OR IGNORE';
@@ -101,9 +104,9 @@ class database {
 		}
 		SQLRequest = SQLRequest.join('\n');
 		try{
-			this.db.prepare(SQLRequest).run();
+			this.db.prepare(SQLRequest).run(setting_values);
 		} catch(err){
-			if(ignore) throw new Error(`SQLEasy error: ${err.message}`);
+			if (ignore) throw new Error(`SQLEasy error: ${err.message}`);
 			else this.add(table, addvArray, true);
 		}
 	}
