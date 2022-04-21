@@ -1,4 +1,4 @@
-// const sqlite3 = require('sqlite3').verbose();  // Пошли в пизду со своим ассинхроном, ублюдки!
+// const sqlite3 = require('sqlite3').verbose();  // Пошли в пизду со своим асинхроном, ублюдки!
 const sqlite3 = require('better-sqlite3');
 
 
@@ -41,6 +41,9 @@ class database {
 	}
 	ToString(value) {
 		return typeof(value) === 'string' ? '\'' + value + '\'' : value;
+	}
+	getIndex (table, indexColumn) {
+		return this.get(table).length;
 	}
 	execute(SQLRequest) {
 		try {
