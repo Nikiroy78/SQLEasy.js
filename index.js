@@ -42,8 +42,15 @@ class database {
 	ToString(value) {
 		return typeof(value) === 'string' ? '\'' + value + '\'' : value;
 	}
-	getIndex (table, indexColumn) {
-		return this.get(table).length;
+	getIndex (table, indexColumn, index_starts = 0) {
+		// return this.get(table).length;
+		let tableData = this.get(table).sort(a, b => a[indexColumn] - b[indexColumn]);
+		let index = index_starts - 1;
+		for (let i in tableData) {
+			if (i != tableData[i][indexColumn]) return i;
+			index = i;
+		}
+		return index + 1;
 	}
 	execute(SQLRequest) {
 		try {
