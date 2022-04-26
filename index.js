@@ -47,8 +47,10 @@ class database {
 		let tableData = this.get(table).sort((a, b) => a[indexColumn] - b[indexColumn]);
 		let index = index_starts - 1;
 		for (let i in tableData) {
-			if (i != tableData[i][indexColumn]) return i;
-			index = i;
+			if (index_starts <= i) {
+				if (i != tableData[i][indexColumn]) return i;
+				index = i;
+			}
 		}
 		return Number(index) + 1;
 	}
