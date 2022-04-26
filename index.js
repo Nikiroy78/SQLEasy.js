@@ -50,7 +50,7 @@ class database {
 			if (i != tableData[i][indexColumn]) return i;
 			index = i;
 		}
-		return index + 1;
+		return Number(index) + 1;
 	}
 	execute(SQLRequest) {
 		try {
