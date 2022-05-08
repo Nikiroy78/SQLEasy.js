@@ -23,6 +23,35 @@ class SQLEasy_error extends Error {
 }
 
 
+function get_from_key (db_data, conditions) {
+	conditions = conditions.filter(i => i != {});
+	if (conditions == [] || !conditions) return db_data;
+	let item = new Object();
+	let bool_conditions = new Array();
+	let condition_item = new Object();
+	let int_condition = 1;
+	
+	let out_objs = new Array();
+	
+	for (let i in db_data) {
+		bool_conditions = new Array();
+		item = db_data[i];
+		
+		for (let index in conditions) {
+			int_condition = 1;
+			condition_item = conditions[index];
+			for (key in condition_item) {
+				int_condition *= Number(item[key] == condition_item[key]);
+			}
+			bool_conditions.push(int_condition);
+		}
+		if (bool_conditions.reduce((a, b) => Boolean(a + b))) out_objs.push(item);
+	}
+	
+	return out_objs;
+}
+
+
 class database {
 	constructor(path){
 		this.PATH = path;
@@ -165,5 +194,6 @@ class database {
 
 
 module.exports = {
-	database: database
+	database: database,
+	get_from_key: get_from_key
 };

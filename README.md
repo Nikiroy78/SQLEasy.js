@@ -117,3 +117,44 @@ output...
 ```javascript
 [{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'etc.'}]
 ```
+### getIndex
+Use this method from getting index value.
+```javascript
+const sqlite = require('SQLEasy.js');
+var database = sqlite.database('/path/to/database.db');
+
+console.log(database.get('table'));
+console.log(database.getIndex('table', 'ID'));
+```
+output...
+```javascript
+[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 3, 'content': 'Content number 3 :)'}, {'ID': 4, 'content': 'edited'}]
+2
+```
+## Other functions that you can use in this module
+### get_from_key
+This function needs from works data in buffer.
+The main advantage of this method is that you do not need to request data from the database every time, it is enough to use the data uploaded to memory:
+```javascript
+// Legacy method!
+const sqlite = require('SQLEasy.js');
+var database = sqlite.database('/path/to/database.db');
+var rolesData = database.get('users').map(i => {
+	return {
+		user: i,
+		role_data: database.get('role', [{id: i.role}])
+	}
+});
+```
+```javascript
+// New method!
+const sqlite = require('SQLEasy.js');
+var database = sqlite.database('/path/to/database.db');
+var roleData = database.get('role', [{id: i.role}])
+var rolesData = database.get('users').map(i => {
+	return {
+		user: i,
+		role_data: sqlite.get_from_key(roleData, [{id: i.role}])
+	}
+});
+```
