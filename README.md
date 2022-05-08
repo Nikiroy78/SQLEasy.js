@@ -150,7 +150,7 @@ var rolesData = database.get('users').map(i => {
 // New method!
 const sqlite = require('SQLEasy.js');
 var database = sqlite.database('/path/to/database.db');
-var roleData = database.get('role', [{id: i.role}])
+var roleData = database.get('role', [{id: i.role}]);
 var rolesData = database.get('users').map(i => {
 	return {
 		user: i,
