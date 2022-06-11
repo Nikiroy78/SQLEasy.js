@@ -1,0 +1,19 @@
+{
+  "name": "sql-easy-lib",
+  "version": "0.9.0",
+  "description": "(Legacy version of SQLEasy library)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nikiroy78/SQLEasy.js.git"
+  },
+  "author": "FullGreaM",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nikiroy78/SQLEasy.js/issues"
+  },
+  "homepage": "https://github.com/Nikiroy78/SQLEasy.js#readme"
+}

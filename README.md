@@ -1,6 +1,17 @@
 # SQLEasy.js
 module for simple works from sqlite3 (JavaScript edition)
-## Prepare for work
+## Prepare for work (install from github)
+Use npm from install in your project:
+```bash
+npm install sql-easy-lib
+```
+import database object in your project
+``` javascript
+const SQLEasy = require('sql-easy-lib');
+var database = new SQLEasy.database('/path/to/database.db');
+```
+This object have 4 methods: add, remove, set, get
+## Prepare for work (install from github)
 My module use module **better-sqlite3**, you must download it.
 ```bash 
 npm install better-sqlite3
