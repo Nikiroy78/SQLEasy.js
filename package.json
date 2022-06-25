@@ -1,6 +1,6 @@
 {
   "name": "sql-easy-lib",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "(Legacy version of SQLEasy library)",
   "main": "index.js",
   "scripts": {
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Nikiroy78/SQLEasy.js/issues"
   },
-  "homepage": "https://github.com/Nikiroy78/SQLEasy.js#readme"
+  "homepage": "https://github.com/Nikiroy78/SQLEasy.js#readme",
+  "dependencies": {
+    "better-sqlite3": "^7.5.3"
+  }
 }

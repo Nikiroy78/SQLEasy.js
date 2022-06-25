@@ -1,3 +1,5 @@
+**WARNING!!!** It's a legacy version of current library! *Do not use in release product!!*
+
 # SQLEasy.js
 module for simple works from sqlite3 (JavaScript edition)
 ## Prepare for work (install from github)
