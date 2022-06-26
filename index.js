@@ -53,7 +53,7 @@ function get_from_key (db_data, conditions) {
 
 class database {
 	constructor(path, warning=true){
-		if (warning) echo("You use LEGACY version of SQLEasy library (v. 0.9.1). In new version structure was been edited. Show more in: https://www.npmjs.com/package/sql-easy-lib");
+		if (warning) console.log("You use LEGACY version of SQLEasy library (v. 0.9.1). In new version structure was been edited. Show more in: https://www.npmjs.com/package/sql-easy-lib");
 		this.PATH = path;
 		// this.db = new sqlite3.Database(this.PATH);  // async - heresy!
 		this.db = new sqlite3(this.PATH);
