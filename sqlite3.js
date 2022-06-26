@@ -1,51 +1,5 @@
-<<<<<<< HEAD
-const mysql = require('./mysql');
-const sqlite = require('./sqlite3');
-const sqleasy_tools = require('./SQLEasyTools');
-
-
-class legacy_sqlite3_db extends sqlite.database {
-	constructor (path, warning=true) {
-		super(path, warning);
-		console.log('You use legacy method of connect to sqlite3 database. If you want use actual method, then use "new SQLite3_database(\'/path/to/database.db\');"');
-		console.log('This connection method can be deactivated in next versions!!');
-	}
-}
-
-
-module.exports = {
-	database: legacy_sqlite3_db,
-	SQLite3_database: sqlite.database,
-	MySQL_database: mysql.mysql_database,
-	
-	Request: sqleasy_tools.Request,
-	tools: {
-		get_from_key: sqleasy_tools.get_from_key
-	}
-}
-=======
 const sqlite3 = require('better-sqlite3');
-
-
-class global_data_Parser{
-	getTable(err, rows){
-		this.rows = rows;
-		this.err = err;
-		// console.log('globalParser:', this.rows);
-	}
-}
-
-
-class SQLEasy_error extends Error {
-	constructor(code='GENERIC', status=500, ...params) {
-		super(...params);
-		if(Error.captureStackTrace) {
-			Error.captureStackTrace(this, 'SQLEasy_error');
-		}
-		this.code = code;
-		this.status = status;
-	}
-}
+const sqleasy_tools = require('./SQLEasyTools');
 
 
 function get_from_key (db_data, conditions) {
@@ -79,7 +33,6 @@ function get_from_key (db_data, conditions) {
 
 class database {
 	constructor(path, warning=true){
-		if (warning) console.log("You use LEGACY version of SQLEasy library (v. 0.9.1). In new version structure was been edited. Show more in: https://www.npmjs.com/package/sql-easy-lib");
 		this.PATH = path;
 		// this.db = new sqlite3.Database(this.PATH);  // async - heresy!
 		this.db = new sqlite3(this.PATH);
@@ -128,21 +81,25 @@ class database {
 	}
 	getBase(table, condition=null, keys='*') {
 		let SQLRequest = `SELECT ${keys} FROM ${table}`;
-		if(condition !== null){
-			let orBlock = new Array();
+		let values = null;
+		if (condition !== null) {
+			/*let orBlock = new Array();
 			for(let i = 0; i < condition.length; i++){
 				let andBlock = new Array();
 				for(let key in condition[i]){
 					andBlock.push(`${key}=${this.ToString(condition[i][key])}`);
 				}
 				orBlock.push(`(${andBlock.join(' AND ')})`);
-			}
-			SQLRequest = `${SQLRequest} WHERE ${orBlock.join(' OR ')}`;
+			}*/
+			SQLRequest = `${SQLRequest} WHERE ${condition.toString().str}`;
 		}
 		// console.log(SQLRequest);  // Убрать после тестов!!
 		try {
-			let rows = this.db.prepare(SQLRequest).all();
-			if(rows !== null & rows !== undefined) return rows;
+			// let rows = this.db.prepare(SQLRequest).all();
+			let rows;
+			if (!condition) rows = this.db.prepare(SQLRequest).all();
+			else rows = this.db.prepare(SQLRequest).all(condition.toString().values);
+			if (!!rows) return rows;
 			else throw new Error('SQLEasy error: Rows given null.');
 		} catch(err) {
 			if(err.message.indexOf('no such table') !== -1){
@@ -159,7 +116,7 @@ class database {
 			let addObject = addvArray[i];
 			let keys = new Array();
 			let values = new Array();
-			setting_values = new Array();
+			// setting_values = new Array();
 			for(let key in addObject){
 				keys.push(key);
 				setting_values.push(addObject[key]);
@@ -171,6 +128,8 @@ class database {
 		}
 		SQLRequest = SQLRequest.join('\n');
 		try{
+			// this.db.prepare(SQLRequest).run(setting_values);
+			// this.db.prepare(SQLRequest).exec(setting_values);
 			this.db.prepare(SQLRequest).run(setting_values);
 		} catch(err){
 			if (ignore) throw new Error(`SQLEasy error: ${err.message}`);
@@ -179,14 +138,14 @@ class database {
 	}
 	del(table, index){
 		this.get(table);
-		let equal_req = '';
+		/*let equal_req = '';
 		for(let key in index) {
 			equal_req = `${key} = ${this.ToString(index[key])}`;
 			break;
-		}
-		let SQLRequest = `DELETE FROM ${table} WHERE ${equal_req}`;
+		}*/
+		let SQLRequest = `DELETE FROM ${table} WHERE ${index.toString().str}`;
 		try {
-			this.db.prepare(SQLRequest).run();
+			this.db.prepare(SQLRequest).run(index.toString().values);
 		} catch(err) {
 			throw new Error(`SQLEasy error: ${err.message}`);
 		}
@@ -197,22 +156,27 @@ class database {
 		let equal_values = '';
 		let value_array = new Array();
 		
-		for(let key in index){
-			equal_index = `${key} = ${this.ToString(index[key])}`;
-			// equal_index = `${key} = ?`;
-			break;
-		}
-		for(let key in values){
+		for (let key in values) {
 			// equal_values = `${key} = ${this.ToString(values[key])}`;
 			equal_values = `${key} = ?`;
 			value_array.push(values[key]);
 			break;
 		}
-		let SQLRequest = `UPDATE ${table} SET ${equal_values} WHERE ${equal_index}`;
+		for (let i in index.requestElements) {
+			for(let key in index.requestElements[i]){
+				// equal_index = `${key} = ${this.ToString(index.requestElements[key])}`;
+				equal_index = `${key} = ?`;
+				value_array.push(index.requestElements[i][key]);
+				break;
+			}
+		}
+		// let SQLRequest = `UPDATE ${table} SET ${equal_values} WHERE ${equal_index}`;
+		let SQLRequest = `UPDATE ${table} SET ${equal_values} WHERE ${index.toString().str}`;
 		try {
 			// this.db.prepare(SQLRequest).get(value_array).run();
 			this.db.prepare(SQLRequest).run(value_array);
 		} catch(err) {
+			console.log(err.stack);
 			throw new Error(`SQLEasy error: ${err.message}`);
 		}
 	}
@@ -223,4 +187,3 @@ module.exports = {
 	database: database,
 	get_from_key: get_from_key
 };
->>>>>>> 631660a213570390163bbcd41828a472dbf95841

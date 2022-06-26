@@ -1,173 +1,137 @@
-**WARNING!!!** It's a legacy version of current library! *Do not use in release product!!*
-
-# SQLEasy.js
-module for simple works from sqlite3 (JavaScript edition)
-## Prepare for work (install from github)
-Use npm from install in your project:
+# SQLEasy library
+This library was written from simple work with databases. In current version supported next famous databases: sqlite3 and MySQL. In future, list with supported databases will be replenishing.
+## Prepare to work
+Before you use this module you must install it.
 ```bash
-npm install sql-easy-lib
+npm install sql-easy-lib --save
 ```
-import database object in your project
-``` javascript
+and you can include it!
+```node
 const SQLEasy = require('sql-easy-lib');
-var database = new SQLEasy.database('/path/to/database.db');
 ```
-This object have 4 methods: add, remove, set, get
-## Prepare for work (install from github)
-My module use module **better-sqlite3**, you must download it.
-```bash 
-npm install better-sqlite3
+## Tools and main objects
+Before work, you must know about twice main tools: **get_from_key** and **Request**.
+```node
+const SQLEasy = require('sql-easy-lib');
+
+var req = new SQLEasy.Request([{id: 1, value: 12}, {name: 'CirillaGif'}]);
+/* This is boolean operation: "(id=1 AND value=12) OR (name=`CirillaGif`)" */
+var get_from_key = SQLEasy.tools.get_from_key;
+/* get_from_key function, about him in down. */
 ```
-from next, you can download folder of project, and load in folder "node_modules"
-``` bash
-cd node_modules
-git clone https://github.com/Nikiroy78/SQLEasy.js.git
+**Request** use from create logic expression
+*example:*
+```node
+// ...
+new SQLEasy.Request([{id: 1, value: 12}, {name: 'CirillaGif'}]);
 ```
-import database object in your project
-``` javascript
-const SQLEasy = require('SQLEasy.js');
-var database = new SQLEasy.database('/path/to/database.db');
+```mysql
+(id=1 AND value=12) OR (name=`CirillaGif`)
 ```
-This object have 4 methods: add, remove, set, get
-## Methods of SQLEasy object
+**get_from_key** use for more efficient queries from buffer variables.
+*example:*
+```node
+// Without use get_from_key
+const SQLEasy = require('sql-easy-lib');
+var database = new SQLEasy.SQLite3_database('/path/to/database.db');
+var rolesData = database.get('users').map(i => {
+	return {
+		user: i,
+		role_data: database.get('role', new SQLEasy.Request([{id: i.role}]))
+	}
+});
+```
+```node
+// With use get_from_key
+const SQLEasy = require('sql-easy-lib');
+var database = new SQLEasy.SQLite3_database('/path/to/database.db');
+var roleData = database.get('role', new SQLEasy.Request([{id: i.role}]));
+var rolesData = database.get('users').map(i => {
+	return {
+		user: i,
+		role_data: sqlite.get_from_key(roleData, new SQLEasy.Request([{id: i.role}]))
+	}
+});
+```
+## Methods of databases
+In all databases methods is equally *(except for the connection)*. 
+```node
+const SQLEasy = require('sql-easy-lib');
+/* Method for connection sqlite3 database */
+var sqlite3 = new SQLEasy.SQLite3_database('/path/to/database.db');
+/* Method for connection MySQL database */
+var mysql = new SQLEasy.MySQL_database({
+	host: "mysql.example.org",
+	user: "username",
+	password: "password"
+});
+mysql.set_db("Example_db");  // setting database in server
+```
+*(for example, we use abstract database object):* **database**
+```node
+const SQLEasy = require('sql-easy-lib');
+
+var database = new SQLEasy.AnyDatabase(args);
+```
 ### get
-This method getting date from included database
-```javascript
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database.db');
-
-console.log(database.get('table'));
+This is getting items from table:
+```mysql
+SELECT
 ```
-output...
-``` javascript
-[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'etc.'}]
+*syntax:*
+```node
+database.get(
+	'table_name',
+	new SQLEasy.Request([{param: 'value'}]),  // Not required: ...WHERE (CONDITION) in request
+	'*'  // Not required: Items in table
+);
 ```
-
-You can apply condition's settings from filt your data...
-```javascript
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database.db');
-
-console.log(database.get('table', [{'ID': 0}, {'content': 'etc.'}]));
-```
-output...
-``` javascript
-[{'ID': 0, 'content': 'content 1'}, {'ID': 3, 'content': 'etc.'}]
-```
-Response show is...
-```SQL
-SELECT * FROM table WHERE (ID=0) OR (content='etc.')
-```
-And you edit uploaded columns
-```javascript
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database.db');
-
-console.log(database.get('table', [{'ID': 0}, {'content': 'etc.'}], 'content'));
-```
-output...
-``` javascript
-[{'content': 'content 1'}, {'content': 'etc.'}]
-```
-Response show is...
-```SQL
-SELECT content FROM table WHERE (ID=0) OR (content='etc.')
-```
-### add
-This is sql response
-```SQL
-INSERT
-```
-Using add method in your code (from your simply, we used old date from last database).
-```javascript
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database.db');
-
-database.add('table', [{'ID': 4, 'content': 'test example, from fucking tests :)'}])
-console.log(database.get('table'));
-```
-output...
-```javascript
-[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'etc.'}, {'ID': 4, 'content': 'test example, from fucking tests :)'}]
-```
-### remove
-Using remove method in your code (from your simply, we used old date from last database).
-```javascript
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database.db');
-
-database.remove('table', {'ID': 4});
-console.log(database.get('table'));
-```
-output...
-```javascript
-[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'etc.'}]
+```mysql
+SELECT * FROM table_name WHERE (param=`value`)
 ```
 ### set
-Using set method in your code (from your simply, we used old date from last database).
-```javascript
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database.db');
-
-database.set('table', {'ID': 3}, {'content': 'edited'});  // First param - index key, found param - edit content...
-console.log(database.get('table'));
+This is set values in items in table:
+```mysql
+UPDATE .. SET
 ```
-output...
-```javascript
-[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'edited'}]
+*syntax:*
+```node
+database.set(
+	'table_name',
+	new SQLEasy.Request([{param: 'value_require_edit'}]),  // Required: ...WHERE (CONDITION) in request
+	[{param: 'value'}]  // Required: Items in table
+);
 ```
-### execute
-This is important method from execute your SQL script in your code.
-Using method **execute** in test code (from your simply, we used old date from last database).
-```javascript
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database');
-
-var data = database.execute('SELECT * FROM table');
-console.log(data);
+```mysql
+UPDATE table_name SET param=`value` WHERE (param=`value_require_edit`)
 ```
-output...
-```javascript
-[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 2, 'content': 'Content number 3 :)'}, {'ID': 3, 'content': 'etc.'}]
+### remove
+This method for remove items into database.
+```mysql
+DELETE
 ```
-### getIndex
-Use this method from getting index value.
-```javascript
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database.db');
-
-console.log(database.get('table'));
-console.log(database.getIndex('table', 'ID'));
+*syntax:*
+```node
+database.remove(
+	'table_name',
+	new SQLEasy.Request([{param: 'value'}])  // Required: ...WHERE (CONDITION) in request
+);
 ```
-output...
-```javascript
-[{'ID': 0, 'content': 'content 1'}, {'ID': 1, 'content': 'other content'}, {'ID': 3, 'content': 'Content number 3 :)'}, {'ID': 4, 'content': 'edited'}]
-2
+```mysql
+DELETE FROM table_name WHERE (param=`value_require_edit`)
 ```
-## Other functions that you can use in this module
-### get_from_key
-This function needs from works data in buffer.
-The main advantage of this method is that you do not need to request data from the database every time, it is enough to use the data uploaded to memory:
-```javascript
-// Legacy method!
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database.db');
-var rolesData = database.get('users').map(i => {
-	return {
-		user: i,
-		role_data: database.get('role', [{id: i.role}])
-	}
-});
+### add
+Method for add items into database.
+```mysql
+INSERT
 ```
-```javascript
-// New method!
-const sqlite = require('SQLEasy.js');
-var database = sqlite.database('/path/to/database.db');
-var roleData = database.get('role', [{id: i.role}]);
-var rolesData = database.get('users').map(i => {
-	return {
-		user: i,
-		role_data: sqlite.get_from_key(roleData, [{id: i.role}])
-	}
-});
+*syntax:*
+```node
+database.remove(
+	'table_name',
+	[{param: 'value'}]  // Required: ... Rows what you add in table.
+);
+```
+```mysql
+INSERT INTO table_name (param) VALUES (`value`)
 ```
