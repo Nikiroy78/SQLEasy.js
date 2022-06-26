@@ -49,7 +49,7 @@ var roleData = database.get('role', new SQLEasy.Request([{id: i.role}]));
 var rolesData = database.get('users').map(i => {
 	return {
 		user: i,
-		role_data: sqlite.get_from_key(roleData, new SQLEasy.Request([{id: i.role}]))
+		role_data: SQLEasy.tools.get_from_key(roleData, new SQLEasy.Request([{id: i.role}]))
 	}
 });
 ```
