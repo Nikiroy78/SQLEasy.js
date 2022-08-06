@@ -127,7 +127,7 @@ INSERT
 ```
 *syntax:*
 ```node
-database.remove(
+database.add(
 	'table_name',
 	[{param: 'value'}]  // Required: ... Rows what you add in table.
 );
