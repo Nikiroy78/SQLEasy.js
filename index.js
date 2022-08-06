@@ -22,7 +22,6 @@ module.exports = {
 		get_from_key: sqleasy_tools.get_from_key
 	}
 }
-=======
 const sqlite3 = require('better-sqlite3');
 
 
@@ -222,4 +221,3 @@ module.exports = {
 	database: database,
 	get_from_key: get_from_key
 };
->>>>>>> 631660a213570390163bbcd41828a472dbf95841
