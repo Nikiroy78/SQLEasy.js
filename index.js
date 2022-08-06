@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const mysql = require('./mysql');
 const sqlite = require('./sqlite3');
 const sqleasy_tools = require('./SQLEasyTools');
