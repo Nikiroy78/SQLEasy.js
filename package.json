@@ -1,6 +1,6 @@
 {
   "name": "sql-easy-lib",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This library was written from simple work with databases. In current version supported next famous databases: sqlite3 and MySQL. In future, list with supported databases will be replenishing.",
   "main": "index.js",
   "scripts": {

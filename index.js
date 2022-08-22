@@ -218,6 +218,16 @@ class database {
 
 
 module.exports = {
+	// Legacy
 	database: database,
-	get_from_key: get_from_key
+	// Current
+	Request: sqleasy_tools.Request,
+	SQLEasy_error: sqleasy_tools.SQLEasy_error,
+	// Databases
+	SQLite3_database: sqlite.database,
+	MySQL_database: mysql.mysql_database,
+	// Tools
+	tools: {
+		get_from_key: sqleasy_tools.get_from_key
+	}
 };
