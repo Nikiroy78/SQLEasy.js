@@ -1,5 +1,5 @@
 function get_from_key (db_data, conditions) {
-	conditions = conditions.requestElements.requestElements.filter(i => i != {});
+	conditions = conditions.requestElements.filter(i => i != {});
 	if (conditions == [] || !conditions) return db_data;
 	let item = new Object();
 	let bool_conditions = new Array();
