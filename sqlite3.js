@@ -162,15 +162,7 @@ class database {
 			value_array.push(values[key]);
 			break;
 		}
-		for (let i in index.requestElements) {
-			for(let key in index.requestElements[i]){
-				// equal_index = `${key} = ${this.ToString(index.requestElements[key])}`;
-				equal_index = `${key} = ?`;
-				value_array.push(index.requestElements[i][key]);
-				break;
-			}
-		}
-		// let SQLRequest = `UPDATE ${table} SET ${equal_values} WHERE ${equal_index}`;
+		value_array = value_array.concat(index.toString().values);
 		let SQLRequest = `UPDATE ${table} SET ${equal_values} WHERE ${index.toString().str}`;
 		try {
 			// this.db.prepare(SQLRequest).get(value_array).run();
