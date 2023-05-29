@@ -99,7 +99,7 @@ UPDATE .. SET
 database.set(
 	'table_name',
 	new SQLEasy.Request([{param: 'value_require_edit'}]),  // Required: ...WHERE (CONDITION) in request
-	[{param: 'value'}]  // Required: Items in table
+	{param: 'value'}  // Required: Items in table
 );
 ```
 ```mysql
