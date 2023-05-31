@@ -3,17 +3,17 @@ const sqlite = require('./sqlite3');
 const sqleasy_tools = require('./SQLEasyTools');
 
 
-class legacy_sqlite3_db extends sqlite.database {
+/*class legacy_sqlite3_db extends sqlite.database {
 	constructor (path, warning=true) {
 		super(path, warning);
 		console.log('You use legacy method of connect to sqlite3 database. If you want use actual method, then use "new SQLite3_database(\'/path/to/database.db\');"');
 		console.log('This connection method can be deactivated in next versions!!');
 	}
-}
+}*/
 
 
-module.exports = {
-	database: legacy_sqlite3_db,
+/*module.exports = {
+	// database: legacy_sqlite3_db,  // turn off legacy method of create db
 	SQLite3_database: sqlite.database,
 	MySQL_database: mysql.mysql_database,
 	
@@ -21,7 +21,7 @@ module.exports = {
 	tools: {
 		get_from_key: sqleasy_tools.get_from_key
 	}
-}
+}*/
 const sqlite3 = require('better-sqlite3');
 
 
@@ -219,7 +219,7 @@ class database {
 
 module.exports = {
 	// Legacy
-	database: database,
+	//database: database,  // Turn Off legacy method
 	// Current
 	Request: sqleasy_tools.Request,
 	SQLEasy_error: sqleasy_tools.SQLEasy_error,
